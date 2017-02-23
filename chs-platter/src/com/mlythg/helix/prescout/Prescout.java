@@ -39,8 +39,8 @@ public class Prescout {
 			e.printStackTrace();
 		}
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-//		List<Team> teams = api.fetchEventTeams(year + eventCode, null);
-		List<Team> teams = api.fetchDistrictTeams(eventCode, year, null);
+		List<Team> teams = api.fetchEventTeams(year + eventCode, null);
+//		List<Team> teams = api.fetchDistrictTeams(eventCode, year, null);
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter("prescout.xls", "UTF-8");
