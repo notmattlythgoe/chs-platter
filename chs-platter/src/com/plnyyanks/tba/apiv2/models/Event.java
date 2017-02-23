@@ -2,6 +2,7 @@ package com.plnyyanks.tba.apiv2.models;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.mlythg.helix.data.ChsTeam;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class Event {
     private List<Match> matches;
     private List<Award> awards;
     private JsonArray webcast;
-    private JsonArray alliances;
+    private List<Alliance> alliances;
     private JsonObject district_points;
 
     public Event(){
@@ -178,11 +179,11 @@ public class Event {
         this.webcast = webcast;
     }
 
-    public JsonArray getAlliances() {
+    public List<Alliance> getAlliances() {
         return alliances;
     }
 
-    public void setAlliances(JsonArray alliances) {
+    public void setAlliances(List<Alliance> alliances) {
         this.alliances = alliances;
     }
 
@@ -217,4 +218,15 @@ public class Event {
     public void setFacebook_eid(String facebook_eid) {
         this.facebook_eid = facebook_eid;
     }
+    
+	public int getPlayoffPosition(ChsTeam team) {
+		for (Alliance alliance : alliances) {
+			for (int i = 0; i < alliance.getPicks().size(); i++) {
+				if (team.getTeamKey().equals(alliance.getPicks().get(i))) {
+					return i + 1;
+				}
+			}
+		}
+		return 4;
+	}
 }

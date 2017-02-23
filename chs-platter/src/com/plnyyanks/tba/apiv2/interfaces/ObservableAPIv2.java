@@ -142,6 +142,13 @@ public interface ObservableAPIv2 {
             @Path("year") int year,
             @Header("If-Modified-Since") String ifModifiedSince
     );
+    
+    @GET("/district/{districtShort}/{year}/teams")
+    Observable<List<Team>> fetchDistrictTeamsObservable(
+            @Path("districtShort") String districtShort,
+            @Path("year") int year,
+            @Header("If-Modified-Since") String ifModifiedSince
+    );
 
     @GET("/match/{matchKey}")
     Observable<Match> fetchMatchObservable(

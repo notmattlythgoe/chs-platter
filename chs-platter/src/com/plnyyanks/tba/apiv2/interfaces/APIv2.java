@@ -148,6 +148,13 @@ public interface APIv2 {
             @Path("year") int year,
             @Header("If-Modified-Since") String ifModifiedSince
     );
+    
+    @GET("/district/{districtShort}/{year}/teams")
+    List<Team> fetchDistrictTeams(
+            @Path("districtShort") String districtShort,
+            @Path("year") int year,
+            @Header("If-Modified-Since") String ifModifiedSince
+    );
 
     @GET("/match/{matchKey}")
     Match fetchMatch(
