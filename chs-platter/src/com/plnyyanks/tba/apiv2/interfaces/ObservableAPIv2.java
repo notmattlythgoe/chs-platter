@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.plnyyanks.tba.apiv2.models.Award;
 import com.plnyyanks.tba.apiv2.models.District;
 import com.plnyyanks.tba.apiv2.models.Event;
+import com.plnyyanks.tba.apiv2.models.EventStats;
 import com.plnyyanks.tba.apiv2.models.Match;
 import com.plnyyanks.tba.apiv2.models.Media;
 import com.plnyyanks.tba.apiv2.models.Team;
@@ -106,7 +107,7 @@ public interface ObservableAPIv2 {
     );
 
     @GET("/event/{eventKey}/stats")
-    Observable<JsonObject> fetchEventStatsObservable(
+    Observable<EventStats> fetchEventStatsObservable(
             @Path("eventKey") String eventKey,
             @Header("If-Modified-Since") String ifModifiedSince
     );

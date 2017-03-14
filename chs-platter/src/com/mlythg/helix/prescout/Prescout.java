@@ -17,6 +17,7 @@ import com.plnyyanks.tba.apiv2.APIv2Helper;
 import com.plnyyanks.tba.apiv2.interfaces.APIv2;
 import com.plnyyanks.tba.apiv2.models.Alliance;
 import com.plnyyanks.tba.apiv2.models.Event;
+import com.plnyyanks.tba.apiv2.models.EventStats;
 import com.plnyyanks.tba.apiv2.models.Team;
 
 public class Prescout {
@@ -29,23 +30,31 @@ public class Prescout {
 
 		String eventCode = "vahay";
 		int yearsToAverage = 3;
+		int type = 1;
 		try {
-			System.out.print("Event Code: ");
+			System.out.println("Event(1) or District(2): ");
+			type = Integer.valueOf(br.readLine());
+			
+			System.out.print("Code: ");
 			eventCode = br.readLine();
-
+			
 			System.out.print("Years: ");
 			yearsToAverage = Integer.valueOf(br.readLine());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		List<Team> teams = api.fetchEventTeams(year + eventCode, null);
-//		List<Team> teams = api.fetchDistrictTeams(eventCode, year, null);
+
+		List<Team> teams;
+		if (type == 1) {
+			teams = api.fetchEventTeams(year + eventCode, null);
+		} else {
+			teams = api.fetchDistrictTeams(eventCode, year, null);
+		}
+		
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter("prescout.xls", "UTF-8");
-			writer.println("Team Number\tTeam Name\tRank Score");
-			System.out.println("Team Number\tTeam Name\tRank Score");
 			for (Team team : teams) {
 				ChsTeam chsTeam = new ChsTeam();
 				chsTeam.setNumber(team.getTeam_number());
@@ -54,6 +63,7 @@ public class Prescout {
 				for (int i = 0; i < yearsToAverage; i++) {
 					List<Event> events = api.fetchTeamEvents("frc" + team.getTeam_number(), year - i, null);
 					for (Event event : events) {
+						EventStats stats = api.fetchEventStats(event.getKey(), null);
 						ChsEvent chsEvent = new ChsEvent();
 						chsEvent.setYear(event.getYear());
 						if (event.getEvent_type() > 1) {
@@ -69,6 +79,7 @@ public class Prescout {
 							}
 						}
 						chsEvent.setPlayoffPosition(event.getPlayoffPosition(chsTeam));
+						chsEvent.setOpr(stats.getOpr(team.getTeam_number()));
 						chsTeam.addEvent(chsEvent);
 					}
 				}

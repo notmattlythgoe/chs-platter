@@ -5,6 +5,7 @@ public class ChsEvent {
 	private double rankPercent;
 	private int year;
 	private int playoffPosition;
+	private double opr;
 	
 	public double getRankPercent() {
 		return rankPercent;
@@ -28,5 +29,13 @@ public class ChsEvent {
 	
 	public void setPlayoffPosition(int playoffPosition) {
 		this.playoffPosition = playoffPosition;
+	}
+
+	public double getOpr() {
+		return opr;
+	}
+
+	public void setOpr(double opr) {
+		this.opr = opr;
 	}
 }
